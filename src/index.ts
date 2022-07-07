@@ -73,6 +73,7 @@ document.getElementById('generate').addEventListener('click', async (e) => {
 
   const qt = QuadTree(0, 0, paperWidth, paperHeight);
 
+  // initialisation
   const roads    = initRoads    (qt, penWidth, zoomMultiplier);
   const railways = initRailways (qt, penWidth, zoomMultiplier);
   const rivers   = initRivers   (qt, penWidth, zoomMultiplier);
@@ -84,6 +85,7 @@ document.getElementById('generate').addEventListener('click', async (e) => {
   const coast    = initCoast    (qt, penWidth, zoomMultiplier);
   // const terrain  = initTerrain  (qt, penWidth);
 
+  // deal with ways
   ways.forEach((way) => {
     roads.way(way, roadTypes);
     railways.way(way, railwayThickness);
@@ -96,17 +98,20 @@ document.getElementById('generate').addEventListener('click', async (e) => {
     labels.way(way, false);
   });
 
+  // deal with nodes
   nodes.forEach((node) => {
     labels.node(node);
     // terrain.node(node);
   })
 
+  // perform any post processing
   rivers.post();
   houses.post();
   crops.post();
   trees.post();
   labels.post();
 
+  // grab everything out of the quad tree
   const shapes = qt.get({
     x: -100,
     y: -100,
@@ -116,6 +121,8 @@ document.getElementById('generate').addEventListener('click', async (e) => {
 
   const allLines = [];
 
+  // Icky way of removing anything that falls outside of the borders of the page. We find any shapes that don't fit entirely within the borders,
+  // then break their lines into much smaller parts, then split off any chunks that fall outside of the borders.
   shapes.forEach((shape) => {
     if (shape.x < border || shape.maxX > paperWidth - border || shape.y < border || shape.maxY > paperHeight - border) {
       if (!shape.metadata.deleteAll) {
@@ -141,6 +148,7 @@ document.getElementById('generate').addEventListener('click', async (e) => {
     }
   });
 
+  // finally draw some borders. A thin line, then a thicker line. I dont know why.
   allLines.push(
     [
       new Vector2(border, border),
