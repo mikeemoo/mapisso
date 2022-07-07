@@ -26,6 +26,7 @@ At the moment there's no filters on the data it loads - it'll load *everything* 
 * Coast lines are hurting my head. I can plot the coastlines, but it'd be good to show some wave-like lines in the sea. I believe the data we get is currently the 'outline' of the coast, and not complete polygons - it's also broken up into multiple ways which aren't neccessarily joined up. Needs a lot more investigation.
 * I haven't done anything regarding terrain yet. There's a few things that come out of the overpass data ('peaks', 'hills'). However, we can also get 'full' elevation data via mapbox.com which could be interesting.
 * Introduce the concept of 'styles'. This ia all very 'lord of the rings' based at the moment, but it could be interesting to have the system support multiple styles of maps.
+* Need to delete 'streams' that intersect with 'rivers'. Streams are a single line, rivers/lakes are a polygon. Sometimes they are represented as both a stream and river at the same time, and sometimes small streams run into the middle of rivers and it looks weird. Roundhay park is a good illustration of where it goes a bit wrong.
 
 ## Resources
 
