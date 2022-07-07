@@ -36,6 +36,13 @@ At the moment there's no filters on the data it loads - it'll load *everything* 
 * https://threejs.org/ - we're using this to load the 'aniron' font via a josn file. It converts also converts all of the curves in the font to individual lines
 * https://overpass-turbo.eu/ - Little playground thing for experimenting with Overpass API queries
 
+## Potentially interesting libraries
+
+* https://github.com/w8r/GreinerHormann - potentially interesting library for adding and subtracting polygons
+* https://www.npmjs.com/package/polygon - some nice polygon related methods. intersections.etc.
+* https://www.npmjs.com/package/jsts - geometry library, ported from JTS.
+* https://www.npmjs.com/package/three - has a bunch of classes that are relevant. some shape/poly stuff, font loading, vector classes.etc.
+
 ## Algorithms
 
 #### `offsetLine` - this offsets a line by a distance.
