@@ -1,0 +1,15 @@
+{
+  "baseUrl": ".",
+  "compilerOptions": {
+    "outDir": "../dist/client",
+    "allowSyntheticDefaultImports": true,
+    "allowJs": true,
+    "module": "es6",
+    "target": "es2019",
+    "moduleResolution": "node",
+    "lib": ["es2019", "DOM"],
+    "types": ["offscreencanvas"]
+  },
+  "include": ["./src/"],
+  "exclude": ["node_modules"]
+}
