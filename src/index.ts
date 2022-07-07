@@ -24,7 +24,7 @@ const mapDiv = document.getElementById('map');
 mapDiv.style.width = `${paperWidth * 2}px`;
 mapDiv.style.height = `${paperHeight * 2}px`;
 const map = new L.map('map', {
-  center: [51.07644816696379, -4.054126765523718],
+  center: [53.8008, -1.5491],
   zoom: 13,
   zoomSnap: 0,
   minZoom: 13

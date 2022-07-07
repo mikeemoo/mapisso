@@ -17,7 +17,7 @@ At the moment there's no filters on the data it loads - it'll load *everything* 
 
 ## Questions to answer
 
-* Is there a more efficient way of doing this? Instead of storing these big `Array<Array<Vector>>` objects in the quad tree, would it be better to store individual line segments (`{p1: Vector, p2: Vector}`) and add ways to retrieve the 'group' that they're part of? Or should we only store polygons (even for roads), then we convert those polygons into lines inside the hpgl output?
+* Is there a more efficient way of doing this? Currently storing objects which look like like: `Array< Array< Vector > >`, so an object in the QuadTree is a collection of lines to be drawn. Is this the right thing to store? Would it be better to store polygons instead (even for single lines) and allow the hpgl renderer deal with converting them to individual lines? or the other extreme and store individual line segments?
 * Would this be a lot faster in a different language? Probably - but we'd lose access to a few things that are currently handy, like the three.js/jtst libraries, and also the ability to use leaflet.js to select an area on the map. Can we work around this? Are the benefits worth it?
 
 ## Outstanding tasks
