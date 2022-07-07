@@ -25,6 +25,13 @@ At the moment there's no filters on the data it loads - it'll load *everything* 
 * Better detail-related controls. Sometimes you want small roads, sometimes you don't. Its not neccessarily related to the zoom level you're at.. You could be zoomed out, but want to show more detail (especially in more rural areas).
 * Coast lines are hurting my head. I can plot the coastlines, but it'd be good to show some wave-like lines in the sea. I believe the data we get is currently the 'outline' of the coast, and not complete polygons - it's also broken up into multiple ways which aren't neccessarily joined up. Needs a lot more investigation.
 * I haven't done anything regarding terrain yet. There's a few things that come out of the overpass data ('peaks', 'hills'). However, we can also get 'full' elevation data via mapbox.com which could be interesting.
-  * https://wiki.openstreetmap.org/wiki/Map_features
-  * https://docs.mapbox.com/data/tilesets/guides/access-elevation-data/
 * Introduce the concept of 'styles'. This ia all very 'lord of the rings' based at the moment, but it could be interesting to have the system support multiple styles of maps.
+
+## Resources
+
+* https://wiki.openstreetmap.org/wiki/Map_features - Shows most of the possible map features
+* https://docs.mapbox.com/data/tilesets/guides/access-elevation-data/ - Potential source of elevation data
+* https://www.openstreetmap.org - Create an account and it'll let you 'edit' the map, which allows you to inspect nodes/ways and find their tags
+* https://github.com/bjornharrtell/jsts and https://locationtech.github.io/jts/ - Geometry library. We use the 'buffer' operation in the label renderer to shrink a polygon bit-by-bit to fill with lines
+* https://threejs.org/ - we're using this to load the 'aniron' font via a josn file. It converts also converts all of the curves in the font to individual lines
+* https://overpass-turbo.eu/ - Little playground thing for experimenting with Overpass API queries
