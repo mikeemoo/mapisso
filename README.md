@@ -35,3 +35,33 @@ At the moment there's no filters on the data it loads - it'll load *everything* 
 * https://github.com/bjornharrtell/jsts and https://locationtech.github.io/jts/ - Geometry library. We use the 'buffer' operation in the label renderer to shrink a polygon bit-by-bit to fill with lines
 * https://threejs.org/ - we're using this to load the 'aniron' font via a josn file. It converts also converts all of the curves in the font to individual lines
 * https://overpass-turbo.eu/ - Little playground thing for experimenting with Overpass API queries
+
+## Algorithms
+
+#### `offsetLine` - this offsets a line by a distance.
+
+![image](https://i.imgur.com/Yop53K9.png)
+
+* Find the tangent of each point (cyan points). You can do this by swapping the X and Y, then making the Y negative.
+* Cast rays (yellow lines) between these new points and find the intersection points of the rays (green points)
+
+#### `thicken` - this uses offset multiple times to thicken a line to a desired thickness (based on pen width)
+
+#### `pointsEvery` - this breaks a multi-point line into smaller parts, specified by the `distance` parameter. It returns the new points, along with a vector representing the direction of the point as a vector
+
+#### `split` - Basically the above, but returns it as a line, ignoring the direction - and ensures the start and end point are correct
+
+#### `intersection` - finds the intersection point of two line segments (i.e. lines with a start and end point)
+
+#### `hacture` - Fills an array of polygons with horizontal lines. You can specify a gap.
+
+* It creates a list of individual line segments from all of the polygons
+* It sorts them based on their minimum position along the X axis
+* It scans from the top of the bounding box until the bottom, and any time a scan ray intersects with a line segment, it switches from 'drawing' to 'not drawing' (it starts or ends a new line).
+
+#### `pointFinder` - Given an array of polygons, it'll return a function that'll give you a random coordinate within any of the polygons.
+
+* It weights the polygons based on their total area, then weighted-random selects one of the polygons to look for a point in.
+* It then generates a coordinate within the bounds of that polygon and checks to see if the point is within the polygon. It keeps trying until it finds one.
+
+#### `fill` - It inremenetally shrinks the size of a list of polygons by the `lineWidth` until it cant shrink anymore, returning the new list of shrunken polygons. This is used for filling in the text labels.
