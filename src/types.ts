@@ -43,15 +43,18 @@ export type Way = {
   relations: Relation[];
 }
 
+export type Member = {
+  type: 'way' | 'node';
+  element: Way | Node;
+  ref: number,
+  role: string;
+};
+
 export type Relation = {
   type: 'relation',
   id: number;
   tags: Tags;
-  members: {
-    type: 'way' | 'node';
-    ref: number,
-    role: string;
-  }[];
+  members: Member[];
 };
 
 export type Element = Node | Way | Relation;

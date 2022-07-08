@@ -1,5 +1,5 @@
 import { Vector2 } from 'three';
-import { Bounds, WeightedPoly } from './types';
+import { Bounds, Way, WeightedPoly } from './types';
 import pointInPoly from 'robust-point-in-polygon';
 import Coordinate from 'jsts/org/locationtech/jts/geom/Coordinate';
 import GeometryFactory from 'jsts/org/locationtech/jts/geom/GeometryFactory';
@@ -328,4 +328,31 @@ export function rotate(line: Vector2[], center: Vector2, angle: number): Vector2
     (cos * (point.x - center.x)) + (sin * (point.y - center.y)) + center.x,
     (cos * (point.y - center.y)) - (sin * (point.x - center.x)) + center.y
   ));
+}
+
+export function combineSegments(waySegments: Way[]) {
+  const combined: Way[] = [];
+  combined.push(waySegments.shift());
+  while (waySegments.length > 0) {
+    const latest = combined[combined.length - 1];
+    let success = false;
+    for (let i = 0; i < waySegments.length; i++) {
+      if (waySegments[i].nodes[0].id === latest.nodes[latest.nodes.length - 1].id) {
+        combined.push(waySegments[i]);
+        waySegments.splice(i, 1);
+        success = true;
+        break;
+      }
+    }
+    if (!success) {
+      console.log('unable to combine by id. looking for closest...');
+      break;
+    }
+  }
+  const poly: Vector2[] = [];
+  combined.forEach((section) => {
+    poly.push(...section.nodes.map((node) => node.position));
+  })
+  return poly;
+
 }

@@ -81,11 +81,13 @@ out body;`;
           if (node) {
             node.relations.push(elem);
           }
+          member.element = node;
         } else if (member.type === 'way') {
           const way = ways.get(member.ref);
           if (way) {
             way.relations.push(elem);
           }
+          member.element = way;
         }
         const m = relationMap.get(member.ref) || [];
         m.push(elem);

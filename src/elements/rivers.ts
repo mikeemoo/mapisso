@@ -1,17 +1,24 @@
 
-import { Way } from '../types';
+import { Relation, Way } from '../types';
 import QuadTree from 'simple-quadtree';
 import { Vector2 } from 'three';
-import { hacture, bounds, split } from '../utils';
+import { hacture, bounds, split, combineSegments } from '../utils';
 import { noise } from '@chriscourses/perlin-noise';
 
 const ways: Way[] = [];
+const relations: Relation[] = [];
 
 export default function rivers(qt: QuadTree, _lineWidth: number, zoomMultiplier: number) {
 
+  function relation(relation: Relation) {
+    if (relation.tags.natural !== 'water') {
+      return;
+    }
+    relations.push(relation);
+  }
+
   function way(way: Way) {
-    if (way.tags.natural !== 'water' &&
-        !way.relations.some((relation) => relation.tags.natural === 'water')    
+    if (way.tags.natural !== 'water' || way.relations.some((relation) => relation.tags.natural === 'water')    
     ) {
       return;
     }
@@ -23,10 +30,19 @@ export default function rivers(qt: QuadTree, _lineWidth: number, zoomMultiplier:
 
     console.log('rivers.post');
 
+
     const polygons: Vector2[][] = ways.map((way) => {
       const points = way.nodes.map((node) => node.position);
       return [...points, points[0]];
     });
+
+
+    relations.forEach((relation) => {
+      const outerMembers = relation.members.filter((member) => member.role === 'outer');
+      const outerWays = outerMembers.map((member) => member.element) as Way[];
+      const outerPolygon = combineSegments(outerWays);
+      polygons.push(outerPolygon);
+    })
 
     hacture(polygons, 2).forEach(
       (line) => {
@@ -44,6 +60,7 @@ export default function rivers(qt: QuadTree, _lineWidth: number, zoomMultiplier:
   }
 
   return {
+    relation,
     way,
     post
   }

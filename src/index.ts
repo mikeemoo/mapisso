@@ -24,8 +24,8 @@ const mapDiv = document.getElementById('map');
 mapDiv.style.width = `${paperWidth * 2}px`;
 mapDiv.style.height = `${paperHeight * 2}px`;
 const map = new L.map('map', {
-  center: [53.99183376380431, -1.5323062575467272],
-  zoom: 13,
+  center: [53.94594315676801, -1.0556249400771647],//[53.99183376380431, -1.5323062575467272],
+  zoom: 17,
   zoomSnap: 0,
   minZoom: 13
 });
@@ -69,7 +69,7 @@ document.getElementById('generate').addEventListener('click', async (e) => {
   const streamThickness = 1;
   const border = 10;
   
-  const { nodes, ways } = await getData(map.getBounds(), paperWidth);
+  const { nodes, ways, relations } = await getData(map.getBounds(), paperWidth);
 
   const qt = QuadTree(0, 0, paperWidth, paperHeight);
 
@@ -84,6 +84,10 @@ document.getElementById('generate').addEventListener('click', async (e) => {
   const labels   = initLabels   (qt, penWidth, zoomMultiplier, labelSizes, border, paperWidth, paperHeight);
   const coast    = initCoast    (qt, penWidth, zoomMultiplier);
   // const terrain  = initTerrain  (qt, penWidth);
+
+  relations.forEach((relation) => {
+    rivers.relation(relation);
+  })
 
   // deal with ways
   ways.forEach((way) => {
